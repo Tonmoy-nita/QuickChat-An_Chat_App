@@ -1,0 +1,94 @@
+# Created by Gemini - A comprehensive .gitignore for Node.js server-side projects
+
+## Dependencies
+# Lockfiles (like package-lock.json or yarn.lock) should be committed, 
+# but the massive node_modules directory should not be.
+node_modules/
+.pnp.*
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+## Environment Variables
+# Ignore all local environment files.
+# It's a best practice to commit a `.env.example` file with placeholder values.
+.env
+.env.*
+!.env.example
+
+## Build & Compilation Output
+# Compiled code, bundled packages, or other build artifacts
+dist/
+build/
+out/
+.next/
+.nuxt/
+
+# Output of 'npm pack'
+*.tgz
+
+## Logs and Reports
+# Log files
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Test coverage reports
+coverage/
+*.lcov
+.nyc_output
+
+# Node.js diagnostic reports
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+## Caching
+# Caches from various tools and editors
+.cache/
+.parcel-cache/
+.eslintcache
+.fusebox/
+.rpt2_cache*/
+
+# TypeScript build info cache
+*.tsbuildinfo
+
+## IDE and Editor Configuration
+# Visual Studio Code
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# JetBrains (WebStorm, IntelliJ, etc.)
+.idea/
+
+# Other editor files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+## OS-Specific Files
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+## Runtime Data
+# Process IDs and other temporary runtime files
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Optional REPL history
+.node_repl_history
+
+# DynamoDB Local files
+.dynamodb/
