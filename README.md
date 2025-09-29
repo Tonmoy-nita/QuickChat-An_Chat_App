@@ -101,83 +101,81 @@ quick-chat/
     ├── package.json
     └── server.js           # Main server entry point (Express and Socket.IO setup)
 
-###  API Endpoints
-The backend server exposes the following REST API endpoints under the /api prefix.
 
-Authentication (/api/auth)
+---
 
-POST /signup: Register a new user.
-POST /login: Log in an existing user.
-PUT /update-profile: Update the logged-in user's profile information. (Protected)
-GET /check: Verify the current user's token and return user data. (Protected)
+## 🔗 API Endpoints
 
-Messaging (/api/messages)
+The backend server exposes the following REST API endpoints under the `/api` prefix.
 
-GET /users: Get all users for the sidebar, excluding the current user. (Protected)
-GET /:id: Get all messages between the logged-in user and another user. (Protected)
-POST /send/:id: Send a message to another user. (Protected)
-PUT /mark/:id: Mark a specific message as seen. (Protected)
+### Authentication (`/api/auth`)
+- **POST /signup** → Register a new user  
+- **POST /login** → Log in an existing user  
+- **PUT /update-profile** → Update the logged-in user's profile (Protected)  
+- **GET /check** → Verify the current user's token and return user data (Protected)  
 
-###  Dependencies & Installation
+### Messaging (`/api/messages`)
+- **GET /users** → Get all users for the sidebar, excluding the current user (Protected)  
+- **GET /:id** → Get all messages between the logged-in user and another user (Protected)  
+- **POST /send/:id** → Send a message to another user (Protected)  
+- **PUT /mark/:id** → Mark a specific message as seen (Protected)  
+
+---
+
+## 📦 Dependencies & Installation
+
 To run the project, you first need to install the dependencies for both the client and the server.
 
-### Server-Side (/server) Dependencies
-Run npm install in the /server directory to install the following:
+### 🔧 Server-Side (`/server`) Dependencies
+Run `npm install` in the `/server` directory to install:
 
-Package               Description
+| Package       | Description |
+|---------------|-------------|
+| express       | Web framework for Node.js |
+| mongoose      | ODM library for MongoDB |
+| socket.io     | Real-time, bidirectional communication |
+| jsonwebtoken  | Generate and verify JWTs |
+| bcryptjs      | Password hashing |
+| cloudinary    | Upload & manage images in the cloud |
+| cors          | Enable Cross-Origin Resource Sharing |
+| dotenv        | Load environment variables |
+| nodemon       | Auto-restart server in development |
 
-express         Web framework for Node.js.
+---
 
-mongoose        Object Data Modeling (ODM) library for MongoDB.
+### 🎨 Client-Side (`/client`) Dependencies
+Run `npm install` in the `/client` directory to install:
 
-socket.io       Enables real-time, bidirectional communication.
+| Package            | Description |
+|--------------------|-------------|
+| react              | UI library |
+| react-dom          | DOM entry point for React |
+| react-router-dom   | Client-side routing |
+| socket.io-client   | Socket.IO client |
+| axios              | HTTP requests to backend |
+| react-hot-toast    | Notifications & alerts |
+| tailwindcss        | Utility-first CSS framework |
+| vite               | Fast frontend build tool |
 
-jsonwebtoken    For generating and verifying JSON Web Tokens (JWT).
+---
 
-bcryptjs        For hashing user passwords securely.
+## ⚙️ Getting Started
 
-cloudinary      For uploading and managing images in the cloud.
+### ✅ Prerequisites
+- Node.js (v18+)  
+- npm (or Yarn)  
+- MongoDB Atlas Account  
+- Cloudinary Account  
 
-cors            Middleware to enable Cross-Origin Resource Sharing.
+---
 
-dotenv          For managing environment variables from a .env file.
+### 🔧 Installation & Setup
 
-nodemon         Automatically restarts the server during development.
-
-### Client-Side (/client) Dependencies
-Run npm install in the /client directory to install the following:
-
-Package                         Description
-
-react                  A JavaScript library for building user interfaces.
-
-react-dom             Serves as the entry point to the DOM.
-
-react-router-dom      For client-side routing.
-
-socket.io-client      Client-side library for Socket.IO.
-
-axios                 For making HTTP requests to the backend API.
-
-react-hot-toast       For displaying notifications and alerts.
-
-tailwindcss           A utility-first CSS framework for styling.
-
-vite                  A fast frontend build tool and dev server.
-
-### Getting Started
-### Prerequisites
-
-Node.js (v18+)
-npm (or Yarn)
-MongoDB Atlas Account
-Cloudinary Account
-
-### Installation & Setup
-
-Clone the repository:
+1️⃣ **Clone the repository**
+```bash
 git clone https://github.com/Tonmoy-nita/QuickChat-An_Chat_App.git
 cd quick-chat
+
 
 Setup the Backend (server):
 
