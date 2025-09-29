@@ -78,29 +78,28 @@ The project is organized into two main directories: client for the frontend Reac
 
 quick-chat/
 ├── client/
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/         # Static assets like images and icons
-│   │   ├── components/     # Reusable React components (Sidebar, ChatContainer, etc.)
-│   │   ├── context/        # React Context for state management (AuthContext, ChatContext)
-│   │   ├── lib/            # Utility functions (e.g., date formatting)
-│   │   ├── pages/          # Page components (HomePage, LoginPage, ProfilePage)
-│   │   ├── App.jsx         # Main application component with routing
-│   │   ├── index.css       # Global styles
-│   │   └── main.jsx        # Application entry point
-│   ├── .env                # Frontend environment variables
-│   └── package.json
+│ ├── public/
+│ ├── src/
+│ │ ├── assets/ # Static assets like images and icons
+│ │ ├── components/ # Reusable React components (Sidebar, ChatContainer, etc.)
+│ │ ├── context/ # React Context for state management (AuthContext, ChatContext)
+│ │ ├── lib/ # Utility functions (e.g., date formatting)
+│ │ ├── pages/ # Page components (HomePage, LoginPage, ProfilePage)
+│ │ ├── App.jsx # Main application component with routing
+│ │ ├── index.css # Global styles
+│ │ └── main.jsx # Application entry point
+│ ├── .env # Frontend environment variables
+│ └── package.json
 │
 └── server/
-    ├── controllers/        # Logic for handling requests (userController, messageController)
-    ├── lib/                # Library/helper files (db.js, cloudinary.js, utils.js)
-    ├── middleware/         # Express middleware (e.g., protectRoute for auth)
-    ├── models/             # Mongoose schemas (User.js, Message.js)
-    ├── routes/             # API route definitions (userRoutes, messageRoutes)
-    ├── .env                # Backend environment variables
-    ├── package.json
-    └── server.js           # Main server entry point (Express and Socket.IO setup)
-
+├── controllers/ # Logic for handling requests (userController, messageController)
+├── lib/ # Library/helper files (db.js, cloudinary.js, utils.js)
+├── middleware/ # Express middleware (e.g., protectRoute for auth)
+├── models/ # Mongoose schemas (User.js, Message.js)
+├── routes/ # API route definitions (userRoutes, messageRoutes)
+├── .env # Backend environment variables
+├── package.json
+└── server.js # Main server entry point (Express and Socket.IO setup)
 
 ---
 
