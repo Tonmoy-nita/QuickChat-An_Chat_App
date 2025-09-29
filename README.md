@@ -73,9 +73,13 @@ Follow these simple steps to run the project locally:
 
 ---
 
-### Project Structure
-The project is organized into two main directories: client for the frontend React application and server for the backend Node.js API.
+---
 
+## Project Structure
+Adjust paths to reflect your repository layout.
+
+
+The project is organized into two main directories: client for the frontend React application and server for the backend Node.js API.
 quick-chat/
 ├── client/
 │ ├── public/
