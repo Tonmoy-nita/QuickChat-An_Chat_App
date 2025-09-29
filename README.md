@@ -7,12 +7,8 @@ It provides a seamless and interactive user experience for instant messaging, co
 
 ## ✨ Live Demo
 👉 [https://quick-chat-an-chat-app.vercel.app/](#)  
-*(Replace with your final deployed frontend URL)*
 
 ---
-
-## 📸 Screenshots
-
 
 ## 📸 Screenshots
 
@@ -73,37 +69,35 @@ Follow these simple steps to run the project locally:
 
 ---
 
----
+## 📂 Project Structure
 
-## Project Structure
-Adjust paths to reflect your repository layout.
+The project is organized into two main directories: **client** for the frontend React application and **server** for the backend Node.js API.
 
-
-The project is organized into two main directories: client for the frontend React application and server for the backend Node.js API.
+```bash
 quick-chat/
 ├── client/
-│ ├── public/
-│ ├── src/
-│ │ ├── assets/ # Static assets like images and icons
-│ │ ├── components/ # Reusable React components (Sidebar, ChatContainer, etc.)
-│ │ ├── context/ # React Context for state management (AuthContext, ChatContext)
-│ │ ├── lib/ # Utility functions (e.g., date formatting)
-│ │ ├── pages/ # Page components (HomePage, LoginPage, ProfilePage)
-│ │ ├── App.jsx # Main application component with routing
-│ │ ├── index.css # Global styles
-│ │ └── main.jsx # Application entry point
-│ ├── .env # Frontend environment variables
-│ └── package.json
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/         # Static assets like images and icons
+│   │   ├── components/     # Reusable React components (Sidebar, ChatContainer, etc.)
+│   │   ├── context/        # React Context for state management (AuthContext, ChatContext)
+│   │   ├── lib/            # Utility functions (e.g., date formatting)
+│   │   ├── pages/          # Page components (HomePage, LoginPage, ProfilePage)
+│   │   ├── App.jsx         # Main application component with routing
+│   │   ├── index.css       # Global styles
+│   │   └── main.jsx        # Application entry point
+│   ├── .env                # Frontend environment variables
+│   └── package.json
 │
 └── server/
-├── controllers/ # Logic for handling requests (userController, messageController)
-├── lib/ # Library/helper files (db.js, cloudinary.js, utils.js)
-├── middleware/ # Express middleware (e.g., protectRoute for auth)
-├── models/ # Mongoose schemas (User.js, Message.js)
-├── routes/ # API route definitions (userRoutes, messageRoutes)
-├── .env # Backend environment variables
-├── package.json
-└── server.js # Main server entry point (Express and Socket.IO setup)
+    ├── controllers/        # Logic for handling requests (userController, messageController)
+    ├── lib/                # Library/helper files (db.js, cloudinary.js, utils.js)
+    ├── middleware/         # Express middleware (e.g., protectRoute for auth)
+    ├── models/             # Mongoose schemas (User.js, Message.js)
+    ├── routes/             # API route definitions (userRoutes, messageRoutes)
+    ├── .env                # Backend environment variables
+    ├── package.json
+    └── server.js           # Main server entry point (Express and Socket.IO setup)
 
 ---
 
