@@ -14,18 +14,28 @@ It provides a seamless and interactive user experience for instant messaging, co
 ## 📸 Screenshots
 
 
+## 📸 Screenshots
+
 <table>
 <tr>
-<td align="center"><strong>Login</strong></td>
+<td align="center"><strong>Login Page</strong></td>
 <td align="center"><strong>Sign Up Page</strong></td>
+</tr>
+<tr>
+<td><img src="https://github.com/Tonmoy-nita/QuickChat-An_Chat_App/blob/main/doc/images/Login_Page.jpg" alt="Login Page Screenshot" width="400"/></td>
+<td><img src="https://github.com/Tonmoy-nita/QuickChat-An_Chat_App/blob/main/doc/images/Sign_up_Page.jpg" alt="Sign Up Page Screenshot" width="400"/></td>
+</tr>
+</table>
+
+<table>
+<tr>
 <td align="center"><strong>Main Chat Interface</strong></td>
 </tr>
 <tr>
-<td><img src="https://i.imgur.com/5u6pPnC.png" alt="Login Page Screenshot" width="400"/></td>
-<td><img src="https://i.imgur.com/5u6pPnC.png" alt="Login Page Screenshot" width="400"/></td>
-<td><img src="https://i.imgur.com/eB3Mh4w.png" alt="Chat Interface Screenshot" width="400"/></td>
+<td><img src="https://github.com/Tonmoy-nita/QuickChat-An_Chat_App/blob/main/doc/images/User_Interface.jpg" alt="Chat Interface Screenshot" width="600"/></td>
 </tr>
 </table>
+
 
 ---
 
@@ -63,9 +73,152 @@ Follow these simple steps to run the project locally:
 
 ---
 
-### 🔧 Installation & Setup
+### Project Structure
+The project is organized into two main directories: client for the frontend React application and server for the backend Node.js API.
 
-1️⃣ **Clone the repository**
-```bash
-git clone https://github.com/your-username/quick-chat.git
+quick-chat/
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/         # Static assets like images and icons
+│   │   ├── components/     # Reusable React components (Sidebar, ChatContainer, etc.)
+│   │   ├── context/        # React Context for state management (AuthContext, ChatContext)
+│   │   ├── lib/            # Utility functions (e.g., date formatting)
+│   │   ├── pages/          # Page components (HomePage, LoginPage, ProfilePage)
+│   │   ├── App.jsx         # Main application component with routing
+│   │   ├── index.css       # Global styles
+│   │   └── main.jsx        # Application entry point
+│   ├── .env                # Frontend environment variables
+│   └── package.json
+│
+└── server/
+    ├── controllers/        # Logic for handling requests (userController, messageController)
+    ├── lib/                # Library/helper files (db.js, cloudinary.js, utils.js)
+    ├── middleware/         # Express middleware (e.g., protectRoute for auth)
+    ├── models/             # Mongoose schemas (User.js, Message.js)
+    ├── routes/             # API route definitions (userRoutes, messageRoutes)
+    ├── .env                # Backend environment variables
+    ├── package.json
+    └── server.js           # Main server entry point (Express and Socket.IO setup)
+
+###  API Endpoints
+The backend server exposes the following REST API endpoints under the /api prefix.
+
+Authentication (/api/auth)
+
+POST /signup: Register a new user.
+POST /login: Log in an existing user.
+PUT /update-profile: Update the logged-in user's profile information. (Protected)
+GET /check: Verify the current user's token and return user data. (Protected)
+
+Messaging (/api/messages)
+
+GET /users: Get all users for the sidebar, excluding the current user. (Protected)
+GET /:id: Get all messages between the logged-in user and another user. (Protected)
+POST /send/:id: Send a message to another user. (Protected)
+PUT /mark/:id: Mark a specific message as seen. (Protected)
+
+###  Dependencies & Installation
+To run the project, you first need to install the dependencies for both the client and the server.
+
+### Server-Side (/server) Dependencies
+Run npm install in the /server directory to install the following:
+
+Package               Description
+
+express         Web framework for Node.js.
+
+mongoose        Object Data Modeling (ODM) library for MongoDB.
+
+socket.io       Enables real-time, bidirectional communication.
+
+jsonwebtoken    For generating and verifying JSON Web Tokens (JWT).
+
+bcryptjs        For hashing user passwords securely.
+
+cloudinary      For uploading and managing images in the cloud.
+
+cors            Middleware to enable Cross-Origin Resource Sharing.
+
+dotenv          For managing environment variables from a .env file.
+
+nodemon         Automatically restarts the server during development.
+
+### Client-Side (/client) Dependencies
+Run npm install in the /client directory to install the following:
+
+Package                         Description
+
+react                  A JavaScript library for building user interfaces.
+
+react-dom             Serves as the entry point to the DOM.
+
+react-router-dom      For client-side routing.
+
+socket.io-client      Client-side library for Socket.IO.
+
+axios                 For making HTTP requests to the backend API.
+
+react-hot-toast       For displaying notifications and alerts.
+
+tailwindcss           A utility-first CSS framework for styling.
+
+vite                  A fast frontend build tool and dev server.
+
+### Getting Started
+### Prerequisites
+
+Node.js (v18+)
+npm (or Yarn)
+MongoDB Atlas Account
+Cloudinary Account
+
+### Installation & Setup
+
+Clone the repository:
+git clone https://github.com/Tonmoy-nita/QuickChat-An_Chat_App.git
 cd quick-chat
+
+Setup the Backend (server):
+
+cd server
+npm install
+
+Create a .env file and add the variables from the server/.env section below.
+
+Start the backend: npm run server
+
+Setup the Frontend (client):
+
+cd ../client
+npm install
+
+Create a .env file and add the variable from the client/.env section below.
+
+Start the frontend: npm run dev
+
+8. Environment Variables
+server/.env
+PORT=5000
+MONGODB_URI="your_mongodb_connection_string"
+JWT_SECRET="your_jwt_secret_key"
+CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
+CLOUDINARY_API_KEY="your_cloudinary_api_key"
+CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
+
+client/.env
+VITE_BACKEND_URL="http://localhost:5000"
+
+
+📄 License
+
+This project is licensed under the MIT License.
+👤 Contact
+
+Tonmoy
+
+GitHub: @Tonmoy-nita
+
+LinkedIn: Tonmoy Bhowmick
+
+Project Link: https://github.com/Tonmoy-nita/QuickChat-An_Chat_App
