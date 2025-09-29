@@ -175,36 +175,51 @@ Run `npm install` in the `/client` directory to install:
 ```bash
 git clone https://github.com/Tonmoy-nita/QuickChat-An_Chat_App.git
 cd quick-chat
+2️⃣ Setup Backend (server)
 
-
-Setup the Backend (server):
-
+bash
+Copy code
 cd server
 npm install
+Create a .env file in /server and add variables (see below).
 
-Create a .env file and add the variables from the server/.env section below.
+Start backend:
 
-Start the backend: npm run server
+bash
+Copy code
+npm run server
+3️⃣ Setup Frontend (client)
 
-Setup the Frontend (client):
-
+bash
+Copy code
 cd ../client
 npm install
+Create a .env file in /client and add variables (see below).
 
-Create a .env file and add the variable from the client/.env section below.
+Start frontend:
 
-Start the frontend: npm run dev
+bash
+Copy code
+npm run dev
+👉 App will run locally:
 
-8. Environment Variables
+Frontend → http://localhost:5173
+
+Backend → http://localhost:5000
+
+🔑 Environment Variables
 server/.env
+env
+Copy code
 PORT=5000
 MONGODB_URI="your_mongodb_connection_string"
 JWT_SECRET="your_jwt_secret_key"
 CLOUDINARY_CLOUD_NAME="your_cloudinary_cloud_name"
 CLOUDINARY_API_KEY="your_cloudinary_api_key"
 CLOUDINARY_API_SECRET="your_cloudinary_api_secret"
-
 client/.env
+env
+Copy code
 VITE_BACKEND_URL="http://localhost:5000"
 
 
