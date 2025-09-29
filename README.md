@@ -171,8 +171,9 @@ Run `npm install` in the `/client` directory to install:
 
 ### 🔧 Installation & Setup
 
-1️⃣ **Clone the repository**
+
 ```bash
+1️⃣ **Clone the repository**
 git clone https://github.com/Tonmoy-nita/QuickChat-An_Chat_App.git
 cd quick-chat
 2️⃣ Setup Backend (server)
@@ -227,8 +228,8 @@ VITE_BACKEND_URL="http://localhost:5000"
 
 This project is licensed under the MIT License.
 👤 Contact
-
-Tonmoy
+```
+### Tonmoy
 
 GitHub: @Tonmoy-nita
 
