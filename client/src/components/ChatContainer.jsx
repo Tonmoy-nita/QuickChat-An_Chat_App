@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
@@ -6,18 +6,38 @@ import assets from "../assets/assets";
 import { formatMessageTime } from "../lib/utils";
 
 const ChatContainer = () => {
-  const { messages, selectedUser, setselectedUser, sendMessage, getMessages } =
-    useContext(ChatContext);
+  const {
+    messages,
+    selectedUser,
+    setSelectedUser,
+    sendMessage,
+    getMessages,
+    setShowDetailsPanel,
+  } = useContext(ChatContext);
   const { authUser, onlineUsers } = useContext(AuthContext);
 
   const scrollEnd = useRef();
+  const messagesContainerRef = useRef();
+  const [atBottom, setAtBottom] = useState(true); // true if user is at (or very near) bottom
+  // Removed lastLength tracking since not needed after refinement
 
   const [input, setInput] = useState("");
-
-  //Handle sending a message
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    if (imagePreview) {
+      const imageToSend = imagePreview;
+      setImagePreview(null);
+      setInput("");
+      try {
+        await sendMessage({ image: imageToSend });
+      } catch {
+        toast.error("Failed to send image");
+        // Optionally, you could restore the preview here if send fails
+      }
+      return;
+    }
     if (input.trim() === "") return null;
     await sendMessage({ text: input.trim() });
     setInput("");
@@ -33,27 +53,49 @@ const ChatContainer = () => {
     }
     const reader = new FileReader();
 
-    reader.onloadend = async () => {
-      await sendMessage({ image: reader.result });
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
       e.target.value = "";
     };
     reader.readAsDataURL(file);
+  };
+
+  const cancelImage = () => {
+    setImagePreview(null);
   };
 
   useEffect(() => {
     if (selectedUser) {
       getMessages(selectedUser._id);
     }
-  }, [selectedUser]);
+  }, [selectedUser, getMessages]);
+
+  // Simple scroll handler (previous approach)
+  const handleScroll = useCallback(() => {
+    const el = messagesContainerRef.current;
+    if (!el) return;
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    setAtBottom(distance <= 5);
+  }, []);
+
+  // Previous scroll approach using scrollIntoView on a sentinel element
+  const scrollToBottom = useCallback((behavior = "auto") => {
+    const endEl = scrollEnd.current;
+    if (!endEl) return;
+    endEl.scrollIntoView({ behavior });
+  }, []);
 
   useEffect(() => {
-    if (scrollEnd.current && messages) {
-      scrollEnd.current.scrollIntoView({ behavior: "smooth" });
+    if (!messages || !messages.length) return;
+    const lastMessage = messages[messages.length - 1];
+    const sentBySelf = lastMessage.senderId === authUser?._id;
+    if (atBottom || sentBySelf) {
+      scrollToBottom(sentBySelf ? "smooth" : "auto");
     }
-  }, [messages]);
+  }, [messages, atBottom, authUser, scrollToBottom]);
 
   return selectedUser ? (
-    <div className="h-full overflow-scroll relative backdrop-blur-lg">
+    <div className="h-full flex flex-col relative backdrop-blur-lg overflow-hidden">
       {/* {------------header-------------} */}
       <div className="flex items-center gap-3 py-3 mx-4 border-b border-stone-500">
         <img
@@ -68,17 +110,24 @@ const ChatContainer = () => {
           )}
         </p>
         <img
-          onClick={() => setselectedUser(null)}
+          onClick={() => setSelectedUser(null)}
           src={assets.arrow_icon}
           alt=""
           className="md:hidden max-w-7"
         />
-        <img src={assets.help_icon} alt="" className="max-md:hidden max-w-5" />
+        <img
+          src={assets.help_icon}
+          alt="Show user info"
+          className="max-md:hidden max-w-5 cursor-pointer"
+          onClick={() => setShowDetailsPanel((p) => !p)}
+        />
       </div>
       {/* {----------chat area----------} */}
       <div
-        className="flex flex-col h-[calc(100%-120px)] overflow-y-scroll p-3
-        pb-6"
+        ref={messagesContainerRef}
+        onScroll={handleScroll}
+        className="flex flex-col flex-1 overflow-y-auto p-3 pb-24"
+        style={{ overscrollBehavior: "contain", willChange: "scroll-position" }}
       >
         {messages.map((msg, index) => (
           <div
@@ -91,8 +140,8 @@ const ChatContainer = () => {
               <img
                 src={msg.image}
                 alt=""
-                className="max-w-[230px] border 
-              border-gray-700 rounded-lg overflow-hidden mb-8"
+                loading="lazy"
+                className="max-w-[230px] border border-gray-700 rounded-lg overflow-hidden mb-8"
               />
             ) : (
               <p
@@ -128,39 +177,67 @@ const ChatContainer = () => {
 
       {/* {-------------bottom area--------------} */}
 
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 p-3">
-        <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
-          <input
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-            onKeyDown={(e) => {
-              e.key === "Enter" ? handleSendMessage(e) : null;
-            }}
-            type="text"
-            placeholder="Send a message"
-            className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"
-          />
-          <input
-            onChange={handleSendImage}
-            type="file"
-            id="image"
-            accept="image/png, image/jpg"
-            hidden
-          />
-          <label htmlFor="image">
+      <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-3 p-3 bg-gradient-to-t from-black/60 to-transparent">
+        {!atBottom && messages.length > 0 && (
+          <button
+            aria-label="Jump to latest"
+            onClick={() => scrollToBottom("smooth")}
+            className="absolute -top-10 right-4 bg-violet-600 text-white text-lg w-8 h-8 flex items-center justify-center rounded-full shadow hover:bg-violet-500"
+          >
+            ↓
+          </button>
+        )}
+        {imagePreview && (
+          <div className="relative inline-block">
             <img
-              src={assets.gallery_icon}
-              alt=""
-              className="w-5 mr-2 cursor-pointer"
+              src={imagePreview}
+              alt="Preview"
+              className="w-16 h-16 object-cover rounded-lg border border-gray-700"
             />
-          </label>
+            <button
+              aria-label="Cancel image"
+              onClick={cancelImage}
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600"
+            >
+              ×
+            </button>
+          </div>
+        )}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 flex items-center bg-gray-100/12 px-3 rounded-full">
+            <input
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+              onKeyDown={(e) => {
+                e.key === "Enter" ? handleSendMessage(e) : null;
+              }}
+              type="text"
+              placeholder="Send a message"
+              className="flex-1 text-sm p-3 border-none rounded-lg outline-none text-white placeholder-gray-400"
+            />
+            <input
+              onChange={handleSendImage}
+              type="file"
+              id="image"
+              accept="image/png, image/jpg, image/jpeg"
+              hidden
+            />
+            <label htmlFor="image">
+              <img
+                src={assets.gallery_icon}
+                alt=""
+                className="w-5 mr-2 cursor-pointer"
+              />
+            </label>
+          </div>
+          <img
+            onClick={handleSendMessage}
+            src={assets.send_button}
+            alt=""
+            className="w-7 cursor-pointer"
+          />
         </div>
-        <img
-          onClick={handleSendMessage}
-          src={assets.send_button}
-          alt=""
-          className="w-7 cursor-pointer"
-        />
+        {/* Details panel intentionally moved to RightSidebar only */}
       </div>
     </div>
   ) : (

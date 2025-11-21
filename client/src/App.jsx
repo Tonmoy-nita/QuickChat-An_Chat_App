@@ -5,6 +5,9 @@ import { AuthContext } from "../context/AuthContext";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
+import RequestOtpPage from "./pages/RequestOtpPage";
+import SetBioPage from "./pages/SetBioPage";
+import VerifyOtpPage from "./pages/VerifyOtpPage";
 
 const App = () => {
   const { authUser } = useContext(AuthContext);
@@ -15,6 +18,18 @@ const App = () => {
         <Route
           path="/"
           element={authUser ? <HomePage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/request-otp"
+          element={!authUser ? <RequestOtpPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/verify-otp"
+          element={!authUser ? <VerifyOtpPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/set-bio"
+          element={!authUser ? <SetBioPage /> : <Navigate to="/" />}
         />
         <Route
           path="/login"

@@ -13,6 +13,9 @@ export const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [socket, setSocket] = useState(null);
+  const [loginTime, setLoginTime] = useState(
+    Number(sessionStorage.getItem("loginTime")) || null
+  );
 
   //Check if user is authenticated and if so, set the user data and connect the socket
 
@@ -39,6 +42,9 @@ export const AuthProvider = ({ children }) => {
         axios.defaults.headers.common["token"] = data.token;
         setToken(data.token);
         localStorage.setItem("token", data.token);
+        const now = Date.now();
+        setLoginTime(now);
+        sessionStorage.setItem("loginTime", String(now));
         toast.success(data.message);
       } else {
         toast.error(data.message);
@@ -56,6 +62,8 @@ export const AuthProvider = ({ children }) => {
     setAuthUser(null);
     setOnlineUsers([]);
     axios.defaults.headers.common["token"] = null;
+    sessionStorage.removeItem("loginTime");
+    setLoginTime(null);
     toast.success("Logged out successfully");
     socket.disconnect();
   };
@@ -71,6 +79,41 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       toast.error(error.message);
+    }
+  };
+
+  // Send OTP function to handle OTP requests
+
+  const sendOtp = async (email) => {
+    try {
+      const { data } = await axios.post("/api/auth/send-otp", {
+        email: email.toLowerCase(),
+      });
+      if (data.success) {
+        return { success: true, message: data.message };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  };
+
+  // Verify OTP function to handle OTP verification
+
+  const verifyOtp = async (email, otp) => {
+    try {
+      const { data } = await axios.post("/api/auth/verify-otp", {
+        email: email.toLowerCase(),
+        otp,
+      });
+      if (data.success) {
+        return { success: true, verificationToken: data.verificationToken };
+      } else {
+        return { success: false, message: data.message };
+      }
+    } catch (error) {
+      return { success: false, message: error.message };
     }
   };
 
@@ -95,6 +138,7 @@ export const AuthProvider = ({ children }) => {
       axios.defaults.headers.common["token"] = token;
     }
     checkAuth();
+    // if loginTime not set but user appears authenticated later we will keep existing session value
   }, []);
 
   const value = {
@@ -105,6 +149,9 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     updateProfile,
+    sendOtp,
+    verifyOtp,
+    loginTime,
   };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

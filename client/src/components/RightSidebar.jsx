@@ -4,8 +4,9 @@ import { ChatContext } from "../../context/ChatContext";
 import assets from "../assets/assets";
 
 const RightSidebar = () => {
-  const { selectedUser, messages } = useContext(ChatContext);
-  const { logout, onlineUsers } = useContext(AuthContext);
+  const { selectedUser, messages, showDetailsPanel, setShowDetailsPanel } =
+    useContext(ChatContext);
+  const { logout, onlineUsers, authUser } = useContext(AuthContext);
 
   const [msgImages, setMsgImages] = useState([]);
 
@@ -22,42 +23,65 @@ const RightSidebar = () => {
           selectedUser ? "max-md:hidden" : ""
         }`}
       >
-        <div className="pt-16 flex flex-col items-center gap-2 text-xs font-light mx-auto">
-          <img
-            src={selectedUser?.profilePic || assets.avatar_icon}
-            alt=""
-            className="w-20 aspect-[1/1] rounded-full"
-          />
-          <h1
-            className="px-10 text-xl font-medium mx-auto flex items-center 
-        gap-2"
-          >
-            {onlineUsers.includes(selectedUser._id) && (
-              <p className="w-2 h-2 rounded-full bg-green-500"></p>
-            )}
-            {selectedUser.fullName}
-          </h1>
-          <p className="px-10 mx-auto">{selectedUser.bio}</p>
-        </div>
-        <hr className="border-[#ffffff50] my-4" />
-
-        <div className="px-5 text-xs">
-          <p>Media</p>
-          <div
-            className="mt-2 max-h-[200px] overflow-y-scroll grid grid-cols-2
-          gap-4 opacity-80"
-          >
-            {msgImages.map((url, index) => (
-              <div
-                key={index}
-                onClick={() => window.open(url)}
-                className="cursor-pointer rounded"
-              >
-                <img src={url} alt="" className="h-full rounded-md" />
+        {!showDetailsPanel && (
+          <>
+            <div className="pt-16 flex flex-col items-center gap-2 text-xs font-light mx-auto">
+              <img
+                src={selectedUser?.profilePic || assets.avatar_icon}
+                alt=""
+                className="w-20 aspect-[1/1] rounded-full"
+              />
+              <h1 className="px-10 text-xl font-medium mx-auto flex items-center gap-2">
+                {onlineUsers.includes(selectedUser._id) && (
+                  <p className="w-2 h-2 rounded-full bg-green-500"></p>
+                )}
+                {selectedUser.fullName}
+              </h1>
+              <p className="px-10 mx-auto">{selectedUser.bio}</p>
+            </div>
+            <hr className="border-[#ffffff50] my-4" />
+            <div className="px-5 text-xs">
+              <p>Media</p>
+              <div className="mt-2 max-h-[200px] overflow-y-scroll grid grid-cols-2 gap-4 opacity-80">
+                {msgImages.map((url, index) => (
+                  <div
+                    key={index}
+                    onClick={() => window.open(url)}
+                    className="cursor-pointer rounded"
+                  >
+                    <img src={url} alt="" className="h-full rounded-md" />
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+          </>
+        )}
+        {showDetailsPanel && (
+          <div className="absolute inset-0 bg-black/70 backdrop-blur flex flex-col p-6 text-white text-xs">
+            <button
+              className="self-end w-6 h-6 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 mb-4"
+              onClick={() => setShowDetailsPanel(false)}
+              type="button"
+            >
+              ×
+            </button>
+            <div className="flex flex-col items-center gap-3 mb-4">
+              <img
+                src={authUser?.profilePic || assets.avatar_icon}
+                alt="Sender avatar"
+                className="w-20 h-20 rounded-full object-cover"
+              />
+              <p className="text-base font-semibold">{authUser?.fullName}</p>
+            </div>
+            <p className="mb-2">
+              <span className="font-medium">Email:</span> {authUser?.email}
+            </p>
+            <p className="mb-2">
+              <span className="font-medium">Bio:</span>{" "}
+              {authUser?.bio?.trim() || "No bio."}
+            </p>
           </div>
-        </div>
+        )}
 
         <button
           onClick={() => logout()}
