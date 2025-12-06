@@ -14,8 +14,8 @@ node_modules/
 # Ignore all local environment files.
 # It's a best practice to commit a `.env.example` file with placeholder values.
 .env
-.env.*
-!.env.example
+
+
 
 ## Build & Compilation Output
 # Compiled code, bundled packages, or other build artifacts
@@ -86,9 +86,3 @@ pids/
 *.pid
 *.seed
 *.pid.lock
-
-# Optional REPL history
-.node_repl_history
-
-# DynamoDB Local files
-.dynamodb/

@@ -138,8 +138,16 @@ export const verifyOtp = async (req, res) => {
 // Controller to login a user
 export const login = async (req, res) =>{
     try {
-        const {email, password} = req.body;
+        const {email: rawEmail, password} = req.body;
+        const email = typeof rawEmail === 'string' ? rawEmail.trim().toLowerCase() : '';
+        if (!email || !password) {
+            return res.json({success: false, message: "Email and password required"});
+        }
         const userData = await User.findOne({email});
+
+        if (!userData) {
+            return res.json({success: false, message: "User not found"});
+        }
 
         const isPasswordCorrect = await bcrypt.compare(password, userData.password);
         if(!isPasswordCorrect){

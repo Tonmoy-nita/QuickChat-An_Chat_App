@@ -6,7 +6,8 @@ It provides a seamless and interactive user experience for instant messaging, co
 ---
 
 ## ✨ Live Demo
-👉 [https://quick-chat-an-chat-app.vercel.app/](#)  
+
+👉 [https://quick-chat-an-chat-app.vercel.app/](#)
 
 ---
 
@@ -32,28 +33,28 @@ It provides a seamless and interactive user experience for instant messaging, co
 </tr>
 </table>
 
-
 ---
 
 ## 🚀 Features
-- 🔐 **User Authentication** – Secure registration & login system using JWT  
-- ⚡ **Real-Time Messaging** – Instant message delivery with Socket.IO  
-- 🟢 **Online Presence** – See which users are currently online  
-- 💬 **Text & Image Sharing** – Upload images (Cloudinary integration)  
-- 👤 **User Profiles** – View & edit name, bio, and profile picture  
-- 🔍 **User Search** – Quickly find users in the sidebar  
-- 🔔 **Unread Message Indicators** – Track unread chats easily  
+
+- 🔐 **User Authentication** – Secure registration & login system using JWT
+- ⚡ **Real-Time Messaging** – Instant message delivery with Socket.IO
+- 🟢 **Online Presence** – See which users are currently online
+- 💬 **Text & Image Sharing** – Upload images (Cloudinary integration)
+- 👤 **User Profiles** – View & edit name, bio, and profile picture
+- 🔍 **User Search** – Quickly find users in the sidebar
+- 🔔 **Unread Message Indicators** – Track unread chats easily
 - 📱 **Responsive Design** – Works on desktop & mobile (Tailwind CSS)
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Category   | Technology |
-|------------|-------------|
-| **Frontend** | React.js, Vite, Tailwind CSS, Socket.IO Client, Axios, React Router |
-| **Backend**  | Node.js, Express.js, Socket.IO, MongoDB, Mongoose, JWT, Bcryptjs, Cloudinary |
-| **Deployment** | Vercel (Frontend), Render/Heroku (Backend) |
+| Category       | Technology                                                                   |
+| -------------- | ---------------------------------------------------------------------------- |
+| **Frontend**   | React.js, Vite, Tailwind CSS, Socket.IO Client, Axios, React Router          |
+| **Backend**    | Node.js, Express.js, Socket.IO, MongoDB, Mongoose, JWT, Bcryptjs, Cloudinary |
+| **Deployment** | Vercel (Frontend), Render/Heroku (Backend)                                   |
 
 ---
 
@@ -62,10 +63,11 @@ It provides a seamless and interactive user experience for instant messaging, co
 Follow these simple steps to run the project locally:
 
 ### ✅ Prerequisites
-- Node.js (v18 or higher recommended)  
-- npm (or Yarn)  
-- MongoDB Atlas account  
-- Cloudinary account  
+
+- Node.js (v18 or higher recommended)
+- npm (or Yarn)
+- MongoDB Atlas account
+- Cloudinary account
 
 ---
 
@@ -73,7 +75,7 @@ Follow these simple steps to run the project locally:
 
 The project is organized into two main directories: **client** for the frontend React application and **server** for the backend Node.js API.
 
-```bash
+````bash
 quick-chat/
 ├── client/
 │   ├── public/
@@ -106,16 +108,16 @@ quick-chat/
 The backend server exposes the following REST API endpoints under the `/api` prefix.
 
 ### Authentication (`/api/auth`)
-- **POST /signup** → Register a new user  
-- **POST /login** → Log in an existing user  
-- **PUT /update-profile** → Update the logged-in user's profile (Protected)  
-- **GET /check** → Verify the current user's token and return user data (Protected)  
+- **POST /signup** → Register a new user
+- **POST /login** → Log in an existing user
+- **PUT /update-profile** → Update the logged-in user's profile (Protected)
+- **GET /check** → Verify the current user's token and return user data (Protected)
 
 ### Messaging (`/api/messages`)
-- **GET /users** → Get all users for the sidebar, excluding the current user (Protected)  
-- **GET /:id** → Get all messages between the logged-in user and another user (Protected)  
-- **POST /send/:id** → Send a message to another user (Protected)  
-- **PUT /mark/:id** → Mark a specific message as seen (Protected)  
+- **GET /users** → Get all users for the sidebar, excluding the current user (Protected)
+- **GET /:id** → Get all messages between the logged-in user and another user (Protected)
+- **POST /send/:id** → Send a message to another user (Protected)
+- **PUT /mark/:id** → Mark a specific message as seen (Protected)
 
 ---
 
@@ -159,10 +161,10 @@ Run `npm install` in the `/client` directory to install:
 ## ⚙️ Getting Started
 
 ### ✅ Prerequisites
-- Node.js (v18+)  
-- npm (or Yarn)  
-- MongoDB Atlas Account  
-- Cloudinary Account  
+- Node.js (v18+)
+- npm (or Yarn)
+- MongoDB Atlas Account
+- Cloudinary Account
 
 ---
 
@@ -215,7 +217,30 @@ VITE_BACKEND_URL="http://localhost:5000"
 
 
 
+````
+
+### Email/OTP (SMTP)
+
+The app sends OTP emails via Brevo SMTP. Configure these variables:
+
 ```
+# server/.env
+BREVO_USER=your_brevo_smtp_login   # e.g. 123abc@smtp-brevo.com
+BREVO_PASSWORD=your_brevo_smtp_key # long SMTP key from Brevo
+EMAIL_USER=verified_sender@example.com # shown in the From field
+```
+
+Deployment on Vercel:
+
+- In your Vercel Project → Settings → Environment Variables, add the same variables
+  (`MONGODB_URI`, `JWT_SECRET`, `CLOUDINARY_*`, `BREVO_USER`, `BREVO_PASSWORD`, `EMAIL_USER`).
+- Add them at least for the Production environment (and Preview if you use it).
+- Redeploy the project after saving.
+
+If SMTP variables are missing in production, the server now returns a clear
+"Email service not configured" message instead of a Nodemailer
+"Missing credentials for 'PLAIN'" error.
+
 📄 License
 
 This project is licensed under the MIT License.
